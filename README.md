@@ -61,7 +61,7 @@ We provide the RE rules for three datasets, ATIS, QC(TREC-6) and SMS. Our REs ar
 |$|wildcard|
 |%|numbers, e.g. 5, 1996|
 |&|punctuations|
-|?|0 or 1 occurrences|
+|?|0 or 1 occurrence|
 |*|zero or more occurrences|
 |+|one or more occurrences|
 |(a<code>&#124;</code>b)|a or b |
