@@ -86,6 +86,7 @@ python data.py --dataset ATIS
 ### RE to FA
 We turn the regular expressions into a finite automaton using our automata-tools package implemented by (@[linonetwo](https://github.com/linonetwo)).
 This tool is modified based on https://github.com/sdht0/automata-from-regex. 
+This package require the 'dot' command for drawing the automata.
 
 Or running the following command to convert REs/reversed RE (for backward direction) to FA.
 ```commandline

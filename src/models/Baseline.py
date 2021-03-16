@@ -68,25 +68,24 @@ class IntentMarryUp(nn.Module):
     def forward(self, input, lengths, re_tags):
         # re_tags B x Label
         input = self.embedding(input)  # B x L x D
-        if self.rnn in ['RNN', 'LSTM', 'GRU']:
+        if self.config.rnn in ['RNN', 'LSTM', 'GRU']:
             pack_padded_seq_input = torch.nn.utils.rnn.pack_padded_sequence(input, lengths, batch_first=True,
                                                                             enforce_sorted=False)
         else:
             pack_padded_seq_input = input
-
         B, L, D = input.size()
-
         if self.config.rnn in ['RNN', 'GRU']:
             out, hn = self.rnn(pack_padded_seq_input)  # B x L x H
+            out, output_lengths = torch.nn.utils.rnn.pad_packed_sequence(out, batch_first=True)
         elif self.config.rnn == 'LSTM':
             out, (hn, cn) = self.rnn(pack_padded_seq_input)  # B x L x H
+            out, output_lengths = torch.nn.utils.rnn.pad_packed_sequence(out, batch_first=True)
         else:
             hn = self.rnn(pack_padded_seq_input)
-
         if self.bidirection and (self.config.rnn in ['RNN', 'LSTM', 'GRU']):
-            last_hidden = torch.cat((hn[0], hn[1]), 1)
+            last_hidden = out[torch.arange(B), output_lengths - 1, :]
         else:
-            last_hidden = hn.squeeze()
+            last_hidden = out[torch.arange(B), output_lengths - 1, :]
 
         if self.config.marryup_type == 'input':
             margin_tensor = torch.tensor(0.5).cuda() if self.is_cuda else torch.tensor(0.5)

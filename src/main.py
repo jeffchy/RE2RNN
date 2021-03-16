@@ -5,6 +5,7 @@ import argparse
 
 from src.train import train_fsa_rnn, train_marry_up, train_onehot, save_args_and_results
 from src.utils.utils import set_seed, get_automata_from_seed
+from copy import deepcopy
 
 
 
@@ -67,6 +68,7 @@ if __name__ == '__main__':
     parser.add_argument('--automata_path_backward', type=str, default='none', help="automata path")
 
     args = parser.parse_args()
+    args_bak = deepcopy(args)
     assert args.farnn in [0, 1]
 
     seeds = [int(i) for i in args.seed.split(':')]
@@ -76,7 +78,7 @@ if __name__ == '__main__':
         assert seed in [0, 1, 2, 3]
         set_seed(seed)
         if args.model_type == 'FSARNN':
-            automata_path_forward, automata_path_backward = get_automata_from_seed(args, seed)
+            automata_path_forward, automata_path_backward = get_automata_from_seed(args_bak, seed)
             paths = (automata_path_forward, automata_path_backward)
             args.automata_path_forward = automata_path_forward
             args.automata_path_backward = automata_path_backward
@@ -89,7 +91,7 @@ if __name__ == '__main__':
             assert args.marryup_type in ['input', 'output', 'all', 'none']
             if args.rnn in ['DAN', 'CNN']:
                 assert args.bidirection == 0
-            automata_path_forward, automata_path_backward = get_automata_from_seed(args, seed)
+            automata_path_forward, automata_path_backward = get_automata_from_seed(args_bak, seed)
             paths = (automata_path_forward, automata_path_backward)
             args.automata_path_forward = automata_path_forward
             args.automata_path_backward = automata_path_backward
@@ -97,7 +99,7 @@ if __name__ == '__main__':
             results[seed] = [acc_dev_init, acc_test_init, best_dev_acc, best_dev_test_acc,best_dev_test_p, best_dev_test_r, ]
             loggers[seed] = logger_res
         elif args.model_type == 'Onehot':
-            automata_path_forward, automata_path_backward = get_automata_from_seed(args, seed)
+            automata_path_forward, automata_path_backward = get_automata_from_seed(args_bak, seed)
             paths = (automata_path_forward, automata_path_backward)
             args.automata_path_forward = automata_path_forward
             args.automata_path_backward = automata_path_backward
