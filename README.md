@@ -30,7 +30,7 @@ Source code for the EMNLP2020 paper: "[Cold-start and Interpretability: Turning 
 ## Data
 Raw dataset files, preprocessed dataset files, glove word embedding matrix, rules for each dataset, and the decomposed automata files can be downloaded here: 
 [Google Drive](https://drive.google.com/file/d/1r8pMu8EwDjys8-6nHFiEJs4QtelhGqY8/view?usp=sharing), 
-[ShanghaiTech Drive](http://pan.shanghaitech.edu.cn/cloudservice/outerLink/decode?c3Vnb24xNjA0OTIxNTI0MTU5c3Vnb24=).
+[Tencent Drive](https://share.weiyun.com/V8TxDWui).
 
 You can download and extract the zip file, and replace the original data directory. The directory structure should be:
 ```commandline
@@ -45,6 +45,10 @@ You can download and extract the zip file, and replace the original data directo
 │   ├── ....
 ├── src
 │   ├── ....
+├── model
+│   ├── ....
+├── imgs
+│   ├── ....
 ``` 
 
 If you have done these, you can skip to the training part.
@@ -57,7 +61,7 @@ We provide the RE rules for three datasets, ATIS, QC(TREC-6) and SMS. Our REs ar
 |$|wildcard|
 |%|numbers, e.g. 5, 1996|
 |&|punctuations|
-|?|0 or 1 occurrences|
+|?|0 or 1 occurrence|
 |*|zero or more occurrences|
 |+|one or more occurrences|
 |(a<code>&#124;</code>b)|a or b |
@@ -147,7 +151,7 @@ python main.py --dataset ATIS --run save_dir --model_type FSARNN --bidirection 0
 ## Interpretability and Models.
 You first need to download the FA-RNN models and config files here:
 [Google Drive](https://drive.google.com/file/d/1q_Bxv2ptCuo_-mLKnd25jCYv6yuYlP4k/view?usp=sharing), 
-[ShanghaiTech Drive](http://pan.shanghaitech.edu.cn/cloudservice/outerLink/decode?c3Vnb24xNjA1Mjc0MjA1MjEzc3Vnb24=).
+[Tencent Drive](https://share.weiyun.com/lC1TnsIy).
 Please place the files in the ```/model``` directory.
 
 We provide several examples showing how to convert the trained model parameters back into WFAs, and threshold them into NFA.
