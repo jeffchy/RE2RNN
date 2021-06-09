@@ -131,20 +131,20 @@ If you use newly decomposed automata, you need to specify the ```--automata_path
 For example: FARNN
 ```commandline
 python main.py --dataset ATIS --run save_dir --model_type FSARNN --bidirection 0 \
---beta 0.9 --wfa_type forward --seed 0 --lr 0.001 --farnn 0 \
+--beta 0.9 --wfa_type forward --seed 0 --lr 0.001 --farnn 0 --normalize_automata l2 \
 --automata_path_forward automata.newrule.split.randomseed150.False.0.0003.0.pkl
 ```
 For example: BiFARNN
 ```commandline
 python main.py --dataset ATIS --run save_dir --model_type FSARNN --bidirection 1 \
---beta 0.9 --wfa_type forward --seed 0 --lr 0.001 --farnn 0 \
+--beta 0.9 --wfa_type forward --seed 0 --lr 0.001 --farnn 0 --normalize_automata l2 \
 --automata_path_forward automata.newrule.split.randomseed150.False.0.0003.0.pkl \
 --automata_path_backward automata.newrule.reversed.randomseed150.False.0.0735.0.pkl
 ```
 For example: FAGRU
 ```commandline
 python main.py --dataset ATIS --run save_dir --model_type FSARNN --bidirection 0 \
---beta 0.9 --wfa_type forward --seed 0 --lr 0.001 --farnn 1 \
+--beta 0.9 --wfa_type forward --seed 0 --lr 0.001 --farnn 1 --normalize_automata l2 \
 --automata_path_forward automata.newrule.split.randomseed150.False.0.0003.0.pkl
 ```
 
