@@ -45,6 +45,8 @@ You can download and extract the zip file, and replace the original data directo
 │   ├── ....
 ├── src
 │   ├── ....
+├── src_simple
+│   ├── ....
 ├── model
 │   ├── ....
 ├── imgs
@@ -146,6 +148,11 @@ For example: FAGRU
 python main.py --dataset ATIS --run save_dir --model_type FSARNN --bidirection 0 \
 --beta 0.9 --wfa_type forward --seed 0 --lr 0.001 --farnn 1 --normalize_automata l2 \
 --automata_path_forward automata.newrule.split.randomseed150.False.0.0003.0.pkl
+```
+We also remove some options and unimportant code to provide a cleaner version of code in ```/src_simple```, in which only contains FARNN related code.
+As an example: 
+```commandline
+python main_min.py --dataset ATIS --run save_dir --model_type FSARNN --beta 0.3
 ```
 
 ## Interpretability and Models.

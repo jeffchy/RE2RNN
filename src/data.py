@@ -3,13 +3,13 @@ import os
 import numpy as np
 import pickle
 from collections import Counter
-from rules.load_data_and_rules import load_TREC_dataset, load_SMS_dataset, load_rule
+from src.rules.load_data_and_rules import load_TREC_dataset, load_SMS_dataset, load_rule
 from pydash.arrays import compact
 from automata_tools import NFAtoDFA, DFAtoMinimizedDFA
-from rules.dfa_from_rule import NFAFromRegex
-from rules.fsa_to_tensor import Automata, drawGraph, dfa_to_tensor
+from src.rules.dfa_from_rule import NFAFromRegex
+from src.rules.fsa_to_tensor import Automata, drawGraph, dfa_to_tensor
 from src.utils.utils import mkdir, evan_select_from_total_number
-from rules.tensor_func import tensor3_to_factors
+from src.rules.tensor_func import tensor3_to_factors
 import time
 import argparse
 
@@ -28,6 +28,7 @@ class ATISIntentDataset(Dataset):
 
     def __len__(self):
         return len(self.dataset)
+
 
 class ATISIntentBatchDataset(Dataset):
 

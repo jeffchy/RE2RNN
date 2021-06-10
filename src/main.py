@@ -8,14 +8,13 @@ from src.utils.utils import set_seed, get_automata_from_seed
 from copy import deepcopy
 
 
-
 if __name__ == '__main__':
 
     parser = argparse.ArgumentParser()
     parser.add_argument('--lr', type=float, default=0.001, help="learning rate of optimizer")
     parser.add_argument('--max_state', type=int, default=3, help="max state of each FSARNN")
     parser.add_argument('--bz', type=int, default=500, help="batch size")
-    parser.add_argument('--epoch', type=int, default=200, help="max state of each FSARNN")
+    parser.add_argument('--epoch', type=int, default=30, help="max state of each FSARNN")
     parser.add_argument('--seq_max_len', type=int, default=30, help="max length of sequence")
     parser.add_argument('--early_stop', type=int, default=20, help="number of epochs that apply early stopping if dev metric not improve")
     parser.add_argument('--run', type=str, default="integrate", help="run folder name to save model")
@@ -58,7 +57,7 @@ if __name__ == '__main__':
 
     parser.add_argument('--bidirection', type=int, default=0, help='if the model is bidirection')
     parser.add_argument('--xavier', type=int, default=1, help='if the FSAGRU model initialized using xavier')
-    parser.add_argument('--normalize_automata', type=str, default='none', help='how to normalize the automata, none, l1, l2, avg')
+    parser.add_argument('--normalize_automata', type=str, default='l2', help='how to normalize the automata, none, l1, l2, avg')
     parser.add_argument('--random_noise', type=float, default=0.001, help='random noise used when adding additional states')
     parser.add_argument('--loss_type', type=str, default='CrossEntropy', help='CrossEntropy, NormalizeNLL')
     parser.add_argument('--use_unlabel', type=int, default=0, help='use unlabel or not')
@@ -69,6 +68,7 @@ if __name__ == '__main__':
 
     args = parser.parse_args()
     args_bak = deepcopy(args)
+
     assert args.farnn in [0, 1]
 
     seeds = [int(i) for i in args.seed.split(':')]
@@ -104,7 +104,7 @@ if __name__ == '__main__':
             args.automata_path_forward = automata_path_forward
             args.automata_path_backward = automata_path_backward
             acc_dev_init, acc_test_init, best_dev_acc, best_dev_test_acc, logger_res = train_onehot(args, paths)
-            results[seed] = [acc_dev_init, acc_test_init, best_dev_acc, best_dev_test_acc ]
+            results[seed] = [acc_dev_init, acc_test_init, best_dev_acc, best_dev_test_acc]
             loggers[seed] = logger_res
 
     args_value_dict = args.__dict__

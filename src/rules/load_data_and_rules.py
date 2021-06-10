@@ -8,7 +8,7 @@ import re
 from typing import List, Optional
 from pydash.arrays import compact
 from automata_tools import get_word_to_index
-from rules.dfa_from_rule import tokenizer
+from src.rules.dfa_from_rule import tokenizer
 
 MITR_PATH = os.path.join(_project_root, 'data', 'MITR')
 SMS_PATH = os.path.join(_project_root, 'data', 'SMS')

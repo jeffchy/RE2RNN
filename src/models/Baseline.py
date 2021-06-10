@@ -1,7 +1,7 @@
 import torch.nn as nn
 from src.models.net import DAN, CNN
 from src.utils.utils import *
-
+import torch
 
 class IntentMarryUp(nn.Module):
     def __init__(self, pretrained_embed, config=None, label_size=None):
@@ -54,13 +54,13 @@ class IntentMarryUp(nn.Module):
 
         if self.config.marryup_type in 'input':
             self.linear = nn.Linear(directions * config.rnn_hidden_dim + self.RE_D, self.label_size)
-            self.tag_embedding = nn.Parameter(torch.randn((self.label_size, self.RE_D)), requires_grad=True)
+            self.tag_embedding = nn.Parameter(torch.randn((self.label_size, self.RE_D)), requires_grad=True) # B x C, C x D -> B x D
         elif self.config.marryup_type == 'output':
             self.linear = nn.Linear(directions * config.rnn_hidden_dim, self.label_size)
-            self.weight = nn.Parameter(torch.randn(self.label_size))
+            self.weight = nn.Parameter(torch.randn(self.label_size), requires_grad=True)
         elif self.config.marryup_type == 'all':
             self.linear = nn.Linear(directions * config.rnn_hidden_dim + self.RE_D, self.label_size)
-            self.weight = nn.Parameter(torch.randn(self.label_size))
+            self.weight = nn.Parameter(torch.randn(self.label_size), requires_grad=True)
             self.tag_embedding = nn.Parameter(torch.randn((self.label_size, self.RE_D)), requires_grad=True)
         elif self.config.marryup_type == 'none':
             self.linear = nn.Linear(directions * config.rnn_hidden_dim, self.label_size)
@@ -73,19 +73,24 @@ class IntentMarryUp(nn.Module):
                                                                             enforce_sorted=False)
         else:
             pack_padded_seq_input = input
+
         B, L, D = input.size()
+
         if self.config.rnn in ['RNN', 'GRU']:
             out, hn = self.rnn(pack_padded_seq_input)  # B x L x H
             out, output_lengths = torch.nn.utils.rnn.pad_packed_sequence(out, batch_first=True)
+
         elif self.config.rnn == 'LSTM':
             out, (hn, cn) = self.rnn(pack_padded_seq_input)  # B x L x H
             out, output_lengths = torch.nn.utils.rnn.pad_packed_sequence(out, batch_first=True)
+
         else:
             hn = self.rnn(pack_padded_seq_input)
+
         if self.bidirection and (self.config.rnn in ['RNN', 'LSTM', 'GRU']):
-            last_hidden = out[torch.arange(B), output_lengths - 1, :]
+            last_hidden = out[torch.arange(B), output_lengths-1, :]
         else:
-            last_hidden = out[torch.arange(B), output_lengths - 1, :]
+            last_hidden = out[torch.arange(B), output_lengths-1, :]
 
         if self.config.marryup_type == 'input':
             margin_tensor = torch.tensor(0.5).cuda() if self.is_cuda else torch.tensor(0.5)

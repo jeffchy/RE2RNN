@@ -101,7 +101,7 @@ def PredictByRE(args, params=None, dset=None,):
     intent_dataloader_test = DataLoader(intent_data_test, batch_size=args.bz)
 
     if params is None:
-        automata_dicts = load_pkl(args.automata_path)
+        automata_dicts = load_pkl(args.automata_path_forward)
         automata = automata_dicts['automata']
         language_tensor, state2idx, wildcard_mat, language = dfa_to_tensor(automata, t2i)
         complete_tensor = language_tensor + wildcard_mat

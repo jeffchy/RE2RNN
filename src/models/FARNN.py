@@ -381,4 +381,4 @@ class IntentIntegrateSaperate_B(nn.Module):
         if self.clamp_score:
             scores = torch.clamp(scores, 0, 1)
 
-        return scores
+        return scores # B x C
