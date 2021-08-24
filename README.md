@@ -161,6 +161,17 @@ You first need to download the FA-RNN models and config files here:
 [Tencent Drive](https://share.weiyun.com/lC1TnsIy).
 Please place the files in the ```/model``` directory.
 
+To seed the log and hyper-parameters of these provided model, simple using pickle to load the .res config files.
+For example, to achieve the hyper-params for model D0.9739-T0.9653-DI0.8655-TI0.8645-1106095843-1604656723.555744-ATIS-0.model, you can run:
+
+```
+import pickle
+pickle.load(open('1106095843-1604656723.5809364.res', 'rb'))
+```
+
+Note that some useless hyper-parameters in the config files are cleaned in the final version/simple version, so the config file may not be directly used, just filter out the useless hyper-params. 
+
+
 We provide several examples showing how to convert the trained model parameters back into WFAs, and threshold them into NFA.
 See the file ```jupyter/checkTrainedRules.ipynb```.
 
